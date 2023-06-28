@@ -1,6 +1,6 @@
 *.txt
-
-*.R
+*.Rproj
+.Rhistory
 
 Slides_textanalyses
 Example_Data
