@@ -6,6 +6,7 @@ _paginate: false
 _class: invert
 title: Text analysis I
 footer: SICSS Berlin - Day 4 - 2023/07/06
+math: mathjax
 headingDivider: 1
 ---
 
@@ -27,7 +28,7 @@ headingDivider: 1
 - texts are used to communicate, so they always contain information
 - we can understand this information as data, even if this is not the main intention of the communication
 - transform text to data points to analyze and extract information/content
-- **BUT:** this transformation always brings a simplification/shortening with it 
+- **BUT:** this transformation always leads to simplifications and truncations
 
 
 # Text as data workflow
@@ -41,7 +42,7 @@ headingDivider: 1
 
 # Text as data specifics
 
-for text as data more relevant than working with classical structured data:
+Challenges of Text as data compared to conventional structured data:
 - no clear workflow 
 - data, pre-processing, methods and models vary strongly on research question
 - specifics for different languages, e.g. for pre-processing
@@ -55,11 +56,10 @@ $\rightarrow$ much more explorative, qualitative understanding of text specifity
 # Bag of Words
 
 - computers and ML algorithms need (vectors of) numbers
-- transform raw text into numbers
-- called *vectorization* or *feature encoding*
+- transforms raw text into numbers -> *vectorization* or *feature encoding*
 - results in *document-feature matrix*
 - collection of terms and their frequencies per document
-- disregarding grammar, word order, and context
+- disregards grammar, word order, and context
 - simple, but easy and useful starting point for many NLP tasks
 
 ---
@@ -96,7 +96,7 @@ What is the smallest, meaningful unit of text documents to encode?
 
 # Bag of **Pre-processing**
 
-manipulate and simplify raw text data to focus on important informations:
+manipulate and simplify raw text data to focus on important information:
 
 - remove punctuation? numbers? symbols? separators?
 - remove stopwords?
@@ -116,11 +116,11 @@ manipulate and simplify raw text data to focus on important informations:
 # Bag of **N-grams**
 
 - which words appear often together
-- keep (important) compound words together and ordered
-- names, e.g. United States
-- negotiations, e.g. not bad
-- increase, e.g. very good
-- keep some word relations from documents
+- keep (important) compound words together and ordered:
+	- names, e.g. United States
+	- negatiations, e.g. not bad
+	- intensifiers, e.g. very good
+- keep at least some word relations/order
 - usually bi-grams (2), but also 3 or 4 possible
 
 
@@ -140,7 +140,7 @@ $\mathrm{idf}(t, D) = \log \frac{N}{|\{d \in D: t \in d\}|}$
 # Bag of **TF-IDF example**
 
 - given 100 news paper articls, with 1000 words each
-- the first article includes 16 times the word 'criminal'
+- the first article includes the word 'criminal' 16 times 
 - over all 'criminal' appears in 40 articles
 
 *tf*: 16/1000 = 0.016
@@ -155,7 +155,7 @@ if 'criminal' appears ...
 
 # Bag of **Questions II**
 
-1. In which case shouldn't we remove all stopwords? 
+1. In what cases should we not remove all stopwords? 
 2. Which punctuations can be informative?
 3. Should we add all possible n-grams?
 4. When is a TF-IDF not helpfull?
@@ -198,8 +198,8 @@ Frameworks to manage and analyze text data
 
 Three different data levels and objects:
 
-1. **Corpus**: data.frame of structures text with document variables
-2. **Tokens**: splitted texts, keep order of tokens
+1. **Corpus**: data.frame of structured texts with document variables
+2. **Tokens**: splitted text,stay in order of original text
 3. **Document-feature matrix**: matrix with frequencies of tokens per document
 
 ---
@@ -222,7 +222,7 @@ dfm <- dfm(tokens)
 ```
 ---
 
-## Pre-processing *of tokens*
+## Pre-processing of tokens
 
 ```r
 tokens_pp <- tokens(
@@ -298,9 +298,9 @@ topfeatures(fcm_pp)
 
 - list of keywords for browder concept/categories
 - measurement: lookup keywords $\rightarrow$ count/proportion of appereance
-- create own dictionary or use existing one
+- create your own dictionary or use existing ones
 - advantages: easy to use and to understand
-- disadvantages: fit a existing one to the text data? a new one is a lot of (subjective) work
+- disadvantages: Pre-made dictionaries might not fit your textual data, creating your own dictionary is a lot of work
 
 ---
 
@@ -322,13 +322,13 @@ textstat_polarity(dfm_dic)
 
 # Topic modeling: LDA
 
-- what is a text about? how differ the topic over time? between texts?
-- 'topic' is characterised by a set of high probability co-occurring word
+- what is a text about? how do the topics differ over time? between texts?
+- 'topic' is characterised by a set of high probability co-occurring words
 - topics ermerge (unsupervised) from the methodology and the corpus
-- researcher decides number of topics $\rightarrow$ degree of granularity
+- number of topics set by researcher $\rightarrow$ degree of granularity
 - LDA (Latent Dirichlet allocation) most frequently used
 
-David Blei (2012): Probabilistic topic models, [tutorial hier!](https://cbail.github.io/SICSS_Topic_Modeling.html)
+David Blei (2012): Probabilistic topic models, [tutorial here!](https://cbail.github.io/SICSS_Topic_Modeling.html)
 
 
 ```r
@@ -350,15 +350,15 @@ terms(tmod_lda, 10)
 - different methods: *Naive Bayes*, *regularized regression*, *SVM*, *K-nearest neighbours*, *ensemble methods*
 - part of text data needs to be (manually) labeld (supervised)
 - split data in **training** and **test** set
-- find patterns to SCHLIEßEn von labeld data on test data
+- find patterns in the labeled data to transfer them to the test data
 - validation: cross-validation
-- metric to evaluate classification: *confusion matrix*, *accuracy*, *precision*, *recall*, *F1 scores*
+- metrics to evaluate classification: *confusion matrix*, *accuracy*, *precision*, *recall*, *F1 scores*
 
 
 # Classifier: Naïve Bayes
 
-  - probabilistisch Lernen
-    - Bayessche Statistik: eigene "Stilrichtung"
+  - probabilistic learning approach
+    - Bayesian statistics: style of its own
   - Intuition: Wenn das Wort "meisterhaft" in einem Text vorkommt, wie wahrscheinlich ist diese Rezension positiv? 
 
   - Ablauf: 
@@ -388,23 +388,17 @@ predict(tmod_nb, dfmat_test, force = TRUE)
 
 # Exercise I
 
-1. 
-
-\pause
-
-2. 
+1. load and inspect the whole corpus (documents, dimensions, tokens)
+2. use different pre-processing strategies and compare results
+3. extract keywords and check, if they differ over time
+4. show most important compound words
 
 
 # Exercise II
 
-Decide as team which exercise you want to start with:
+Decide as team which task you want to start with:
 1. dictionary: sentiment over time, grouped by newspaper
-2. topic modeling: find topics and see how they change with different pre-processing
+2. topic modeling: find topics and show how they appear in the corpus
 
 
 https://github.com/microsoft/ML-For-Beginners/blob/main/6-NLP/2-Tasks/README.md#tasks-common-to-nlp
-
-
-
-
-
