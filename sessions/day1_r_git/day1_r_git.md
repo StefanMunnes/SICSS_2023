@@ -1,11 +1,12 @@
 ---
 marp: true
-size: 16:9
-paginate: true
-_paginate: false
 title: Introduction to Workflow and Git(Hub)
 _class: invert
 footer: SICSS Berlin - Day 1 - 2023/07/03
+size: 16:9
+paginate: true
+_paginate: false
+math: mathjax
 ---
 
 <!-- headingDivider: 1 -->
@@ -82,15 +83,21 @@ footer: SICSS Berlin - Day 1 - 2023/07/03
 - helps to imagine changes as smaller tasks
 - share, publish, and collaborate on projects
 
+<!--
+- started 2005 by Linus Torvald
+- mostly used by software developers
+- more and more in academia -> open code
+-->
+
 
 # Git: **How to use it**
 
-|         | Ease of use                           | Efficiency                          | Nerdiness                             |
-| ------- | ------------------------------------- | ----------------------------------- | ------------------------------------- |
-| CLI     | $\bullet\circ\circ\circ\circ$         | $\bullet\bullet\circ\circ\circ$     | $\bullet\bullet\bullet\bullet\bullet$ |
-| GUI     | $\bullet\bullet\bullet\circ\circ$     | $\bullet\bullet\bullet\circ\circ$   | $\bullet\bullet\circ\circ\circ$       |
-| RStudio | $\bullet\bullet\bullet\bullet\circ$   | $\bullet\bullet\bullet\circ\circ$   | $\bullet\bullet\bullet\circ\circ$     |
-| VSCode  | $\bullet\bullet\bullet\bullet\bullet$ | $\bullet\bullet\bullet\bullet\circ$ | $\bullet\bullet\bullet\bullet\circ$   |
+|                                                         | Ease of use                           | Efficiency                          | Nerdiness                             |
+| ------------------------------------------------------- | ------------------------------------- | ----------------------------------- | ------------------------------------- |
+| CLI                                                     | $\bullet\circ\circ\circ\circ$         | $\bullet\bullet\circ\circ\circ$     | $\bullet\bullet\bullet\bullet\bullet$ |
+| [GUI](https://de.wikipedia.org/wiki/Liste_von_Git-GUIs) | $\bullet\bullet\bullet\circ\circ$     | $\bullet\bullet\bullet\circ\circ$   | $\bullet\bullet\circ\circ\circ$       |
+| RStudio                                                 | $\bullet\bullet\bullet\bullet\circ$   | $\bullet\bullet\bullet\circ\circ$   | $\bullet\bullet\bullet\circ\circ$     |
+| VSCode                                                  | $\bullet\bullet\bullet\bullet\bullet$ | $\bullet\bullet\bullet\bullet\circ$ | $\bullet\bullet\bullet\bullet\circ$   |
 
 ---
 
