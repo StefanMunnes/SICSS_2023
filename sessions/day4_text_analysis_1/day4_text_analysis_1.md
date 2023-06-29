@@ -3,9 +3,10 @@ marp: true
 size: 16:9
 paginate: true
 _paginate: false
-title: Text analysis I
 _class: invert
+title: Text analysis I
 footer: SICSS Berlin - Day 4 - 2023/07/06
+headingDivider: 1
 ---
 
 # Text analysis I
@@ -15,7 +16,6 @@ footer: SICSS Berlin - Day 4 - 2023/07/06
 
 ![bg ](img/text_analysis.jpg)
 
----
 
 # Introduction
 
@@ -29,7 +29,6 @@ footer: SICSS Berlin - Day 4 - 2023/07/06
 - transform text to data points to analyze and extract information/content
 - **BUT:** this transformation always brings a simplification/shortening with it 
 
----
 
 # Text as data workflow
 
@@ -39,7 +38,6 @@ footer: SICSS Berlin - Day 4 - 2023/07/06
 4. Analyse data
 5. Validate and interprete results
 
----
 
 # Text as data specifics
 
@@ -53,7 +51,6 @@ for text as data more relevant than working with classical structured data:
 
 $\rightarrow$ much more explorative, qualitative understanding of text specifity
 
----
 
 # Bag of Words
 
@@ -73,7 +70,6 @@ $\rightarrow$ much more explorative, qualitative understanding of text specifity
 
 ![bg 80%](img/bow_2.png)
 
----
 
 # Bag of **Words?**
 
@@ -89,7 +85,6 @@ What is the smallest, meaningful unit of text documents to encode?
 - hashtags
 - punctuation
 
----
 
 # Bag of **Questions I**
 
@@ -98,7 +93,6 @@ What is the smallest, meaningful unit of text documents to encode?
 3. What are the benefits of BOW approach?
 4. What are the shortcomings of BOW approach?
 
----
 
 # Bag of **Pre-processing**
 
@@ -118,7 +112,6 @@ manipulate and simplify raw text data to focus on important informations:
 
 *Denny & Spirling 2017*
 
----
 
 # Bag of **N-grams**
 
@@ -130,7 +123,6 @@ manipulate and simplify raw text data to focus on important informations:
 - keep some word relations from documents
 - usually bi-grams (2), but also 3 or 4 possible
 
----
 
 # Bag of **TF-IDF**
 
@@ -144,7 +136,6 @@ $\mathrm {tfidf} (t,d,D)= \mathrm {tf} (t,d)\cdot \mathrm {idf} (t,D)$
 $\mathrm {tf}(t,d)={\frac {f_{t,d}}{\sum _{t'\in d}{f_{t',d}}}}$
 $\mathrm{idf}(t, D) = \log \frac{N}{|\{d \in D: t \in d\}|}$
 
----
 
 # Bag of **TF-IDF example**
 
@@ -161,7 +152,6 @@ if 'criminal' appears ...
 ... 100 times in the first article: 0.0916
 ... in just 15 articles: 0.0304
 
----
 
 # Bag of **Questions II**
 
@@ -170,7 +160,6 @@ if 'criminal' appears ...
 3. Should we add all possible n-grams?
 4. When is a TF-IDF not helpfull?
 
----
 
 # Bag of **Analysis**
 
@@ -180,7 +169,6 @@ if 'criminal' appears ...
 - document classification (e.g. naiive bayes, support vector maschine)
 - topic modeling (e.g. LDA)
 
----
 
 # Bag of **R packages**
 
@@ -193,7 +181,6 @@ Frameworks to manage and analyze text data
 
 ... and many more for special tasks (on [CRAN](https://cran.r-project.org/web/views/NaturalLanguageProcessing.html))
 
----
 
 # Bag of **Quanteda**
 
@@ -206,7 +193,6 @@ Frameworks to manage and analyze text data
   - compatible with other packauges: spacyr, readtext, stm, ...
   - multiple packages: *quanteda*, *quanteda.textstats*, *quanteda.textmodels*, *quanteda....*
 
----
 
 # Bag of **Workflow**
 
@@ -234,7 +220,6 @@ tokens <- tokens(corpus, what = "word") # "sentence", "character", "fastestword"
 ```r
 dfm <- dfm(tokens)
 ```
-
 ---
 
 ## Pre-processing *of tokens*
@@ -308,9 +293,8 @@ topfeatures(fcm_pp)
 
 ![bg 90%](img/sentiment.png)
 
----
 
-## Dictionary: Sentiment analysis
+# Dictionary: Sentiment analysis
 
 - list of keywords for browder concept/categories
 - measurement: lookup keywords $\rightarrow$ count/proportion of appereance
@@ -335,9 +319,8 @@ textstat_polarity(dfm_dic)
 
 ![bg 90%](img/topic_modeling.png)
 
----
 
-## Topic modeling: LDA
+# Topic modeling: LDA
 
 - what is a text about? how differ the topic over time? between texts?
 - 'topic' is characterised by a set of high probability co-occurring word
@@ -347,7 +330,6 @@ textstat_polarity(dfm_dic)
 
 David Blei (2012): Probabilistic topic models, [tutorial hier!](https://cbail.github.io/SICSS_Topic_Modeling.html)
 
----
 
 ```r
 tmod_lda <- textmodel_lda(review_dfm4, k = 10)
@@ -356,15 +338,14 @@ terms(tmod_lda, 10)
 
 # topics(tmod_lda)
 ```
----
 
-Topic modeling: example
+
+# Topic modeling: example
 
 [Poster](https://martinmolder.com/wp-content/uploads/2018/03/poster_20170219.jpg) by Martin Mölder & Federico Vegetti : http://www.martinmolder.com/punk-songs.html
 
----
 
-## Classifier: General
+# Classifier: General
 
 - different methods: *Naive Bayes*, *regularized regression*, *SVM*, *K-nearest neighbours*, *ensemble methods*
 - part of text data needs to be (manually) labeld (supervised)
@@ -374,15 +355,11 @@ Topic modeling: example
 - metric to evaluate classification: *confusion matrix*, *accuracy*, *precision*, *recall*, *F1 scores*
 
 
----
-
-## Classifier: Naïve Bayes
+# Classifier: Naïve Bayes
 
   - probabilistisch Lernen
     - Bayessche Statistik: eigene "Stilrichtung"
   - Intuition: Wenn das Wort "meisterhaft" in einem Text vorkommt, wie wahrscheinlich ist diese Rezension positiv? 
-
-\pause
 
   - Ablauf: 
   1. Wie häufig kommt das Wort "meisterhaft" in positiven und negativen Rezensionen vor?
@@ -400,6 +377,7 @@ Topic modeling: example
    - Wörter, die nicht im training set vorkommen, werden von der Klassifikation ausgeschlossen 
    - konditionale Unabhängigkeit wird angenommen
 
+---
 
 ```r
 tmod_nb <- textmodel_nb(dfmat_train, class)
@@ -407,9 +385,8 @@ tmod_nb <- textmodel_nb(dfmat_train, class)
 predict(tmod_nb, dfmat_test, force = TRUE)
 ```
 
----
 
-## Exercise I
+# Exercise I
 
 1. 
 
@@ -417,9 +394,8 @@ predict(tmod_nb, dfmat_test, force = TRUE)
 
 2. 
 
----
 
-## Exercise II
+# Exercise II
 
 Decide as team which exercise you want to start with:
 1. dictionary: sentiment over time, grouped by newspaper
