@@ -2,6 +2,8 @@
 
 The Summer Institute will be held at the [Berlin Social Science Center (WZB)](https://www.wzb.eu).
 
+Find further information about the key note speakers and their talks on our [speakers page](https://www.wzb.eu/en/research/dynamics-of-social-inequalities/work-family-and-social-inequality/sicss-2023).
+
 ---
 
 ## Week 1
@@ -27,7 +29,7 @@ The Summer Institute will be held at the [Berlin Social Science Center (WZB)](ht
 
 |             | Monday (7/10)          | Tuesday (7/11)         | Wednesday (7/12)       | Thursday (7/13)                      |
 | ----------- | ---------------------- | ---------------------- | ---------------------- | ------------------------------------ |
-| 0.00-9.30   | Project status update  | Project status update  | Project status update  | Project presentations and discussion |
+| 9.00-9.30   | Project status update  | Project status update  | Project status update  | Project presentations and discussion |
 | Room:       | B002                   | B002                   | B002                   | B002                                 |
 | 9.30-12.30  | Work on group projects | Work on group projects | Work on group projects | Project presentations and discussion |
 | Room:       | B001/B002              | B001/B002              | B001/B002              | B002                                 |
