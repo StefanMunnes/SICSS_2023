@@ -1,139 +1,292 @@
 ---
 marp: true
+title: Text analysis II
+_class: invert
+footer: SICSS Berlin - Day 5 - 2023/07/07
 size: 16:9
 paginate: true
 _paginate: false
-title: Text analysis II
-_class: invert
-style: |
-  section {
-    background-color: #00000;
-  }
-footer: SICSS Berlin - Day 5 - 2023/07/07
+math: mathjax
+headingDivider: 1
 ---
 
 # Text analysis II
-## Relational based methods  
+## Prediction based methods  
+
+
+# Bag of Words: **Recap**
+
+frequency based method:
+* count of words in corpus/per document
+* high dimensional document feature matrix
+* could be weighted (e.g. TF-IDF)
+
+<!--
+- really easy to create and understand
+- really simple -> really fast
+-->
+
+# Bag of Words: **Drawbacks**
+
+1. sparse matrix: huge dimensions and empty cells
+2. no relationships of words through vectorization
+
+<!--
+- why is this a problem?
+- simple vectorization doesn't reflect meaning of words
+- there is no relation, on the vector level, between words with same meaning
+- e.g. like & love, not the same words, but transport comparable meaning
+-->
+
+# Quiz: **How can we imagine meaning of words?**
 
 ---
 
-# Introduction
+![bg 80%](img/embeddings_1.jpg)
 
-- show seccond part of NLP overview
-- more advanced methods -> context matters vs. bag of words
-
-Our words are our raw data, and to feed them into models, we need to convert them into a format that our algorithms can understand: numbers. One of the most potent ways to achieve this is through word embeddings.
-
-Word embeddings are the steppingstone for the current advancements in Natural Language Processing (NLP) like BERT and ChatGPT.
-
----
-
-# Word2Vec
-
-[Explanation](https://medium.com/@igniobydigitate/word-embeddings-helping-computers-understand-language-semantics-dd3456b1f700)
-
-- word to vector [article 2013](...)
-- Different steps:
-  - context window (# words before and after focus word)
-  - matrix of one hot encodings for focus and context words
-  - train neural network: focus word -> hidden layer -> context words
-  - weights on these edges are the word embeddings
-  - set size of hidden layer: dimension of output vectors
-
-CBOW (Continuous Bag of Words) and Skip-gram
-  - CBOW predicts target word from context words
-  - Skip-gram predicts context words given target word
-
+<!--
+- a or c
+- share something in common
+- not everything, but on some level words are comparable 
+-->
 
 ---
 
-# ChatGPT
+![bg 80%](img/embeddings_2.jpg)
 
-1. Definition: Word embeddings are distributed representations of words in a vector space. They capture semantic and syntactic relationships between words, allowing machines to understand the meaning of words based on their contextual usage.
+<!--
+- words receive meaning in comparison to other words
+- relations between words are reflected
 
-2. Motivation: Traditional approaches to natural language processing (NLP) relied on handcrafted features or sparse representations, which often failed to capture the complexity of language. Word embeddings emerged as a way to overcome these limitations and provide more nuanced representations of words.
+- there is a reason these examples where in a diagram
+- numerical representation of "meaning"
+- two-dimensional space, for visual representation
+- we as humans learned and know intuitive
+- but how can computers learn this relations?
+-->
 
-3. Representation learning: Word embeddings are a form of representation learning, where a model learns to automatically extract useful features or representations from raw data. In the case of word embeddings, the model learns to represent words as dense vectors in a continuous vector space.
 
-4. Distributional hypothesis: The foundation of word embeddings is the distributional hypothesis, which states that words that occur in similar contexts tend to have similar meanings. Word embeddings leverage this principle by learning representations that capture these contextual relationships.
+# Word embeddings: **Vectorization of meaning**
 
-5. Training process: Word embeddings are typically learned through unsupervised learning from large corpora of text data. Popular methods include Word2Vec, GloVe, and FastText. These models use different algorithms, such as neural networks or matrix factorization, to learn word representations.
+* theoretical background: distribution hypothesis
+  $\rightarrow$ "a word is characterized by the company it keeps" [Firth 1957](https://www.worldcat.org/de/title/studies-in-linguistic-analysis/oclc/907573426)
+* word embeddings represent words as real-valued vectors
+* similar word vectors for words in same context 
+* lower dimensional space, each corresponds to an aspect of the word’s meaning
+&nbsp;
+* (mostly) neuronal network
+* innovative base for current advancements of large language models
 
-6. Vector space properties: Word embeddings are designed to have useful properties in the vector space. Similar words are represented by vectors that are close together, while dissimilar words are represented by vectors that are far apart. This allows for various mathematical operations on word embeddings, such as vector arithmetic and clustering.
+<!--
+Question: What different kind of words will be predicted?
+- both: words that appear often together
+- AND substitutes or similar words:
+- not often together, but appear often in the same context
+- tea or coffee, not the same, but appear in the same sentence:
+If it's raining, I like my hot ... .
+- this movie was really good! VS: this movie was really bad!
 
-7. Applications: Word embeddings have revolutionized many NLP tasks. They are used in sentiment analysis, machine translation, text classification, named entity recognition, question answering, and more. Word embeddings provide a way to encode semantic information into machine learning models, enabling them to understand and generate human language.
-
-8. Pretrained embeddings: Pretrained word embeddings are available for many languages and domains. These embeddings are trained on large corpora and can be directly used in downstream NLP tasks, saving the time and resources required for training from scratch.
-
-9. Limitations: Word embeddings have some limitations. They may not capture certain rare or domain-specific words well. They can also inherit biases present in the training data. Additionally, word embeddings do not explicitly encode word sense disambiguation or compositional meaning, although some methods attempt to address these challenges.
-
-10. Advances and future directions: Word embeddings continue to be an active area of research. Recent advancements include contextualized word embeddings (e.g., BERT, GPT) that capture word meaning based on the entire context, as well as specialized embeddings for subword units like characters and morphemes. The field is also exploring techniques for interpretability and fairness in word embeddings.
+capture semantic and syntactic relationships between words, 
+allowing machines to understand the meaning of words based on their contextual usage.
+-->
 
 ---
 
-# Word Embeddings
+[Test with Online Demo](https://www.cs.cmu.edu/~dst/WordEmbeddingDemo/)
 
-- shortcomings from bag of words and simple DFM
-- one-hot vectors or count based 
+![bg left:75% 80%](img/embeddings_vectors.webp)
 
-Distributional hypothesis
-"you may know the meaning of a word by the company it keeps"
+<!--
+1. see vectors for different words
+2. see words in 3 dimensional space
+3. see most similar words
+4. calculate with vectors
+-->
 
+# Word embeddings: **Development**
 
-Using this underlying assumption, you can use Word2Vec to:
+![bg left:40% 80%](img/embeddings_time.webp)
 
-- Surface similar concepts
-- Find unrelated concepts
-- Compute similarity between two words and more!
+Classic word embeddings:
+2013 [Word2vec](https://arxiv.org/abs/1301.3781): CBOW, Skip-gram
+2014 [GloVe](https://www.researchgate.net/publication/284576917_Glove_Global_Vectors_for_Word_Representation): co-occurrence matrix
+2017 [fastText](https://arxiv.org/abs/1607.04606): character n-grams
 
-neuronal network
+Language models using word embeddings:
+2018 [ELMo](https://arxiv.org/abs/1802.05365): context sensitive
+2018 [BERT](https://arxiv.org/abs/1810.04805v2): bi-directional transformer
+2018 [GPT](https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf): uni-directional transformer
 
-Word2Vec - 2013
-- neural network
-- CBOW (predict word by context)
-- Skip-gram (predict the context)
-
-Glove - 2015
+<!--
+Glove
 - hybrid: adds global co-occurance statistics to window-based-method)
 - faster and also for rare words
 
 FastText
-- character n-grams (for morphologically rich languages like german, arabic)
+- character n-grams (for morphologically rich languages like german, arabic, and typos)
 
+not all, but most important
+-->
 
-"Word embeddings are sentiment agnostic and capture conceptual similarity but not necessarily sentiment similarity"
+# Word2Vec: **Prediction**
 
-"it is a mathematical way of representing the meaning of words. Word embeddings represent words as vectors of real-valued numbers, where each dimension in the vector corresponds to a particular feature or aspect of the word’s meaning. In a way, word embeddings are like a dictionary for a computer. Just like we use a dictionary to look up the meanings of words, a computer can use a word embedding to look up the numerical vector representation of a word."
+**1. create training data**
+- sliding context window (size)
+- pair of target and context words
+
+<style scoped>
+table {
+  font-size: 18px;
+  margin-left: 0.7cm;
+  margin-top: 0.2cm;
+}
+</style>
+
+| Target   | Context  |
+| -------- | -------- |
+| Deep     | Learning |
+| Deep     | is       |
+| Learning | Deep     |
+| Learning | is       |
+| Learning | very     |
+| Learning | hard     |
+
+![bg right:50% 70%](img/word2vec_context.webp)
+
+<!--
+- window size: a window of words which surround target word
+- context window is hyperparameter, could differ results: 
+- longer window =  tend to capture more topic/domain information: what other words (of any type) are used in related discussions?
+- shorter window = tend to capture more about word itself: what other words are functionally similar?
+- larger window size longer training time
+
+- training data: pair of target and context words
+-->
 
 ---
 
-# Word Embeddings: Go on
+![bg left:50% 90%](img/word2vec_nn_skipgram.webp)
 
-- Search Engines: Word embeddings can improve the matches in a search engine. E.g., if you search for “soccer,” the search engine also gives you results for “football” as they’re two different names for the same game
+**2. train neuronal network:**
+ - three layers: target word $\rightarrow$ hidden layer $\rightarrow$ context word
+ - input and output layer = one-hot vectors of vocabulary size (V)
+ - hidden layer = size of vector dimension (N)
 
-- Language Translation: Word embeddings are crucial for language translation. Two or more words with the same meaning words in two different languages would have similar vectors, which would make it easier for a computer to translate from one language to another.
+<!--
+- pass each pair into the neural network and train it
+- task the neural network is trying to do: guess which context words can appear given a target word.
+-->
 
-- Chatbots: We’ve seen increasing use of chatbots across different applications for different purposes. The users of a chatbot can write a query in any form and can use different words to convey the same thing.
+---
 
-Use cases:
-- find biases in language: Embeddings also encode doctors and computer programmers as male professions and nurses and homemakers as female professions (Ethayarajh et al., 2019)
-- cultural differences: 
-- find similar words to build custom dictionary
-- define working variables that embody the concept or research questions (Olivier Toubia, Jonah Berger, and Jehoshua Eliashberg.
-1.    How quantifying the shape of stories predicts
-their success. Proceedings of the National Academy
-of Sciences, 118(26):e2011695118)
-- Nikhil Garg, Londa Schiebinger, Dan Jurafsky, and
-James Zou. 2018. Word embeddings quantify 100
-years of gender and ethnic stereotypes. Proceedings
-of the National Academy of Sciences, 115(16):E3635–
-E3644.
+**3. extract word embeddings**
+- represent the weights in a matrix
+- each row, one-hot encoded vector of a specific word
+- columns are weights for each word of vocabulary 
 
 
-online-Test ([Link](http://bionlp-www.utu.fi/wv_demo/))
+[Source of Figures](https://medium.com/deep-learning-demystified/deep-nlp-word-vectors-with-word2vec-d62cb29b40b3)
+
+![bg left:50% 90%](img/word2vec_weights.webp)
+
+<!--
+- what a neural network learns is represented in the weights
+- we get a matrix with 10k rows and 300 columns, VxN
+-->
+
+# Word2vec: **CBOW & Skip-gram**
+
+![h:300](img/cbow_skip_gram.png)
+
+1. Continuous Bag of Words predicts target word from context words
+   - less computationally expensive
+2. Skip-gram predicts context words given target word
+   - for large corpora and high number of dimensions -> highest accuracy
 
 
+# Word2vec: **How to use**
 
-Bag of Words (BOW) vs. Neural Networks (Embeddings)
-count based methods vs. predictiv methods
-frequency vs. meaning of terms
+1. pre-trained models
+- choose own and check data and hyperparameter background
+
+2. train on own corpus
+- pre-process (remove high- and low-frequency words)
+- choose algorithm (Skip-gram or CBOW)
+- choose hyperparameter:
+  - dimensions: 100 - 1000 (original: 300)
+  - context window: 10 for skip-gram, 5 for CBOW
+- (evaluate with benchmarks)
+
+
+# Word2vec: **Implementation in R**
+
+```r
+library(word2vec)
+
+model <- word2vec(text_vector, type = "cbow", window = 5)
+
+embeddings <- as.matrix(model)
+
+predict(model, c("criminal", "violent"), type = "nearest", top_n = 5)
+
+wv <- embeddings["white", ] - embeddings["person", ] + embeddings["racism", ] 
+predict(model, newdata = wv, type = "nearest", top_n = 10)
+
+write.word2vec(model, "mymodel.bin")
+model <- read.word2vec("mymodel.bin")
+```
+
+# Word embeddings: **Limitations**
+
+* different context & polysemy
+* out-of-vocabulary words
+* limited context window
+* cultural bias in word relations
+* pro-processing, algorithm and hyperparameter can vary results
+* coherence of meaning
+* large amount of text data for self-training
+
+<!--
+- polysemy (multiple meanings of same word) river bank vs. financial bank
+- newer: contextualized word embeddings (e.g., BERT, GPT)
+- rare, new and domain specific words
+- broader context in longer sentences/documents
+- combination of words/concepts influenced by stereotypes
+- what are valid word embeddings?
+- over time, between documents and cultures
+-->
+
+# Word embeddings: **Applications**
+
+* search engines & information retrieval
+* language translation
+* use in ML algorithms (e.g. classifier)
+* find biases (in language)
+* study cultural differences (also over time)
+* domain specific dictionaries
+
+<!--
+- search for “soccer,” the search engine also gives you results for “football” as they’re two different names for the same game
+- similar concepts of words in different langues with similar word embeddings
+- as we know, computers and ML algorithms need numerical input -> word embeddings store meanings and relations of words -> more information that can be used
+- 
+-->
+
+# Word embeddings: **Research**
+
+![bg right:50% 100%](img/we_gender_stereotypes.png)
+
+Word embeddings quantify 100 years of gender and ethnic stereotypes. 2018
+Nikhil Garg, Londa Schiebinger, Dan Jurafsky, and James Zou
+[Article](https://www.pnas.org/doi/10.1073/pnas.1720347115)
+
+
+# Exercises
+
+1. train your own word embeddings on the whole news article corpus
+   - pre-process data, choose architecture and hyperparameter
+   - additional: train separate for news site
+
+2. download pre-trained word embeddings (document parameter)
+3. compare the most similar words for some important keywords
+4. discuss possible differences: method or content? 
