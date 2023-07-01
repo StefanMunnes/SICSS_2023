@@ -7,9 +7,8 @@ size: 16:9
 paginate: true
 _paginate: false
 math: mathjax
+headingDivider: 1
 ---
-
-<!-- headingDivider: 1 -->
 
 # Introduction to Workflow and Git(Hub)
 
@@ -28,8 +27,8 @@ math: mathjax
 1. use separate folders for scripts, data, output, and reports
 2. separate raw data files from processed data
 3. use clear and consistent names for script, data, and output files:
-	* numbering, lowercase, connect words with underscores or hyphens
-	* if date is necessary, put at the end, sort by YYYYMMDD
+	- numbering, lowercase, connect words with underscores or hyphens
+	- if date is necessary, put at the end, sort by YYYYMMDD
 4. multiple script files for different (sub) tasks (max 100 lines)
 
 <!--
@@ -42,14 +41,14 @@ math: mathjax
 
 # Best practice: **Efficient R scripts**
 
-1. define libraries, default variables, source code at top of script
-2. comment and structure sections (# ---- headline ----)
-3. use pipe operator |> (magritter: %>%) for combining functions
-4. use indentations and spaces for readability
-5. max line length of 80 characters
-6. [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself) - use lists, lapply, vectorization, and functions
-7. use relative paths for data and output
-8.  avoid hard coded subsetting and indexing
+1) define libraries, default variables, source code at top of script
+2) comment and structure sections (# ---- headline ----)
+3) use pipe operator |> (magritter: %>%) for combining functions
+4) use indentations and spaces for readability
+5) max line length of 80 characters
+6) [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself) - use lists, lapply, vectorization, and functions
+7) use relative paths for data and output
+8)  avoid hard coded subsetting and indexing
 
 
 # Best practice: **Resources**
@@ -129,7 +128,7 @@ math: mathjax
 
 ---
 
-![bg 65%](img/Git-Working-Tree.png)
+![bg 70%](img/git_flow.gif)
 
 <!--
 - small graph with the basics command and workflow
@@ -137,6 +136,8 @@ math: mathjax
 - commands always start with git
 - then command what you want to do
 - mostly followed by arguments and options
+
+- I present commands -> concepts are the same in a GUI, named identical
 -->
 
 # Git: **First and basic steps**
@@ -199,7 +200,7 @@ By using branches, several developers are able to work in parallel on the same p
 
 # GitHub: **Credentials**
 
-- for GitHub remote commands: username and personal access token needed
+- for GitHub remote commands: Account and personal access token needed
 - Settings $\rightarrow$ Developer Setting $\rightarrow$ Personal Access Tokens $\rightarrow$ Generate new token
 - on local machine enter username and PAT every time, or:
   1. `git config credential.helper store`
