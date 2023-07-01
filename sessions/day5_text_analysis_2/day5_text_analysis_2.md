@@ -287,6 +287,6 @@ Nikhil Garg, Londa Schiebinger, Dan Jurafsky, and James Zou
    - pre-process data, choose architecture and hyperparameter
    - additional: train separate for news site
 
-2. download pre-trained word embeddings (document parameter)
+2. download pre-trained word embeddings (check parameter)
 3. compare the most similar words for some important keywords
 4. discuss possible differences: method or content? 
