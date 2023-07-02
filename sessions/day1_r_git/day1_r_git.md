@@ -115,7 +115,7 @@ headingDivider: 1
 | ------------------------------------------------------- | ------------------------------------- | ----------------------------------- | ------------------------------------- |
 | CLI                                                     | $\bullet\circ\circ\circ\circ$         | $\bullet\bullet\circ\circ\circ$     | $\bullet\bullet\bullet\bullet\bullet$ |
 | [GUI](https://de.wikipedia.org/wiki/Liste_von_Git-GUIs) | $\bullet\bullet\bullet\circ\circ$     | $\bullet\bullet\bullet\circ\circ$   | $\bullet\bullet\circ\circ\circ$       |
-| RStudio                                                 | $\bullet\bullet\bullet\bullet\circ$   | $\bullet\bullet\bullet\circ\circ$   | $\bullet\bullet\bullet\circ\circ$     |
+| RStudio                                                 | $\bullet\bullet\bullet\circ\circ$     | $\bullet\bullet\bullet\bullet\circ$ | $\bullet\bullet\bullet\circ\circ$     |
 | VSCode                                                  | $\bullet\bullet\bullet\bullet\bullet$ | $\bullet\bullet\bullet\bullet\circ$ | $\bullet\bullet\bullet\bullet\circ$   |
 
 <!--
@@ -239,6 +239,7 @@ passworts.txt
 
 ![bg left:40% 90%](img/github_setup.png)
 
+0. find in groups
 1. install git
 2. create a GitHub account
 3. become collaborator (tell user name)
