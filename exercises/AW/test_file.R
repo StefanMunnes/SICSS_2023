@@ -8,3 +8,6 @@ for(x in a) {
  c <- mean(x)
  print(c)
 }
+
+# Now I am testing the process of staging.
+
