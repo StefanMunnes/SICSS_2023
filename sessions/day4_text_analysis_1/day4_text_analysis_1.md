@@ -270,14 +270,14 @@ textstat_keyness(dfm, target = docvars(dfm, "article_length") < 4000) |>
 
 ---
 
-##   Context, n-grams, and feature co-occurrence matrix
+## Context, n-grams, and feature co-occurrence matrix
 
 ```r
 kwic(tokens_pp, "rezensent*")
 ```
 
 ```r
-textstat_collocations(tokens_pp, size = 10) # on tokens level
+textstat_collocations(tokens_pp, size = 10)
 ```
 
 ```r
@@ -287,37 +287,33 @@ tokens_pp <- tokens_compound(tokens_pp, pattern = phrase("black live matter"))
 ```r
 fcm_pp <- fcm(tokens_pp, context = "window", count = "frequency", window = 3)
 topfeatures(fcm_pp)
-
 ```
----
-
-![bg 90%](img/sentiment.png)
 
 
 # Dictionary: Sentiment analysis
 
-- list of keywords for browder concept/categories
-- measurement: lookup keywords $\rightarrow$ count/proportion of appereance
-- create your own dictionary or use existing ones
+- list of keywords for broader concept/categories
+- measurement: lookup keywords $\rightarrow$ count/proportion of appearance
+- use existing dictionary or create your own 
 - advantages: easy to use and to understand
 - disadvantages: Pre-made dictionaries might not fit your textual data, creating your own dictionary is a lot of work
+
+---
+
+![bg 75%](img/sentiment_polarity.png)
 
 ---
 
 [Quanteda sentiment dictionaries](https://github.com/quanteda/quanteda.sentiment)
 
 ```r
-dict_pol <- quanteda.sentiment::data_dictionary_HuLiu
-dict_val <- quanteda.sentiment::data_dictionary_AFINN
+dict_pol <- data_dictionary_HuLiu
 
-dfm_dic <- dfm_lookup(dfm, pol)
+dfm_lookup(dfm_pp, dict_pol)
+textstat_polarity(dfm_pp, dict_pol)
 
-textstat_polarity(dfm_dic)
-
+textstat_valence(dfm_pp, data_dictionary_AFINN)
 ```
----
-
-![bg 90%](img/topic_modeling.png)
 
 
 # Topic modeling: LDA
@@ -330,13 +326,25 @@ textstat_polarity(dfm_dic)
 
 David Blei (2012): Probabilistic topic models, [tutorial here!](https://cbail.github.io/SICSS_Topic_Modeling.html)
 
+<!--
+- 
+-->
+
+---
+
+![bg 90%](img/topic_modeling.png)
+
+---
 
 ```r
+library(quanteda.textmodels)
+library(seededlda)
+
 tmod_lda <- textmodel_lda(review_dfm4, k = 10)
 
 terms(tmod_lda, 10)
 
-# topics(tmod_lda)
+topics(tmod_lda)
 ```
 
 
@@ -357,15 +365,9 @@ terms(tmod_lda, 10)
 
 # Classifier: Naïve Bayes
 
-  - probabilistic learning approach
-    - Bayesian statistics: style of its own
-  - Intuition: Wenn das Wort "meisterhaft" in einem Text vorkommt, wie wahrscheinlich ist diese Rezension positiv? 
-
-  - Ablauf: 
-  1. Wie häufig kommt das Wort "meisterhaft" in positiven und negativen Rezensionen vor?
-  2. Wie wahrscheinlich kommt das Wort in positiven und negativen Rezensionen vor?
-  3. Wie wahrscheinlich gehört ein Dokument zur positiven oder negativen Klasse?
-  4. Welcher dieser Wahrscheinlichkeiten ist höher? 
+- probabilistic learning approach
+  - Bayesian statistics: style of its own
+- Intuition: Wenn das Wort "meisterhaft" in einem Text vorkommt, wie wahrscheinlich ist diese Rezension positiv?
 
 **Vorteile** 
 
