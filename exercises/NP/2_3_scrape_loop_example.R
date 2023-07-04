@@ -2,15 +2,17 @@
 # The first version uses lapply, and below that a for loop
 
 library(rvest)
+library(httr)
+library(tidyverse)
 
 # Load the previously saved URLs
-urls <- scan("../data/processed/practice_CNN_URLs.md", character(), quote = "")
-
+urls <- scan("exercises/NP/practice_CNN_URLs.md", character(), quote = "")
+urls
 
 # lapply ------------------------------------------------------------------
 # Run loop over these URLs
 # With lapply
-articles <- lapply(urls, function(url) {
+articles <- lapply(urls[1:5], function(url) {
   
   Sys.sleep(runif(1)+1)
   
@@ -37,14 +39,14 @@ articles <- lapply(urls, function(url) {
       html_text() %>%
       paste(collapse = ""),
     
-    url = url
+    url = url[1:5]
   )
   
   return(article)
 })
 
 articles <- data.table::rbindlist(articles, fill = TRUE) 
-saveRDS(articles, file = "../data/processed/CNN.Rds")
+saveRDS(articles, file = "exercises/NP/CNN.Rds")
 
 
 # Loop alternative --------------------------------------------------------
