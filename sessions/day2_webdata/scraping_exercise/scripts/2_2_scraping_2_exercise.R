@@ -9,7 +9,7 @@ library(rvest)
 #     URL file!
 # 2. Build a loop to scrape all articles in the provided URL document!
 
-# NOTE: The result should be a dataframe with five columns (title, author, date, body, url). 
+# NOTE: The result should be a dataframe with four columns (title, author, date, body, url). 
 # NOTE: Tomorrow we will learn how to clean the text data.
 # NOTE: Don't forget to include a time delay between each request to the server! 
 
