@@ -14,8 +14,6 @@ library(httr)
 # NOTE: Tomorrow we will learn how to clean the text data.
 # NOTE: Don't forget to include a time delay between each request to the server! 
 
-getwd()
-
 urls <- scan("/Users/maialodato/Desktop/Summer School 2023 /D1/SICSS_2023/sessions/day2_webdata/scraping_exercise/data/processed/practice_CNN_URLs.md", character(), quote = "")
 urls
 
@@ -45,7 +43,7 @@ date
 
 # Text: 
 text <- web %>% 
-  html_node(".inline-placeholder") %>% 
+  html_node(".paragraph") %>% 
   html_text()
 text
 
