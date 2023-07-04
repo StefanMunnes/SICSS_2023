@@ -1,38 +1,43 @@
 # SICSS Berlin - Day 2 - July 4, 2023
-# API - Exercise
+# API - Exercise - FW
 
-setwd("/Users/fwagner/Library/Mobile Documents/com~apple~CloudDocs/Uni/CEU/summer schools/SICSS Berlin")
+setwd("/Users/fwagner/Library/Mobile Documents/com~apple~CloudDocs/Uni/CEU/summer schools/SICSS Berlin/SICSS_2023/exercises/FW")
 library(tidyverse)
 library(httr)
+require(stringr)
 
-# Use the API provided by https://api.congress.gov/ to get 
-# 1.	Names and other information on members of congress.
-#     Save the resulting data on your hard drive.
-#     Bonus: Congress has had 2,516 members not 250.
+api_key <- str_split(readLines("~/Library/Mobile Documents/com~apple~CloudDocs/Uni/CEU/summer schools/SICSS Berlin/us_congress_api.txt"), pattern = " ")
 
-# Optional task
-# 2.	Congressional records from 2020 to 2023
-#     Save the resulting data on your hard drive.
+httr_rec <- GET("https://api.congress.gov/v3/member",
+                query = list(format = "json",
+                             limit=250,
+                             offset=0,
+                             api_key = api_key))
+                
 
-# NOTE: The data might look messy, but we will deal with that tomorrow!
-# NOTE: Don’t forget to include a time delay between API requests!
+content(httr_rec)
 
-# Get your API-key https://api.congress.gov/sign-up/ 
-# Store your API-key outside of the script
-# Run the following line.
-# A window will open.
-# Add "congress_key = [your key]" and save
-file.edit("~/.Renviron")
-# Restart R, then you can access the key via
-Sys.getenv("congress_key")
+# extracting the members
+members <- content(httr_rec, type='application/json')$member
 
+### LOOP
 
-# Task 1 ------------------------------------------------------------------
-# 1.	Names and other information on members of congress from 2020 to 2023
+members <- list()
+limit <- 250
+offset <- 0
 
-# Task2 -------------------------------------------------------------------
-# 2.	Congressional records from 2020 to 2023 (only includes URLs to records)
+# Define the total number of iterations
+num_iterations <- 11 
 
-# Task 3 ------------------------------------------------------------------
-# Think about, how you might be able to merge the two data sets
-
+# Loop through the desired number of iterations
+for (i in 1:num_iterations) {
+  httr_rec <- GET("https://api.congress.gov/v3/member", query = list(
+    format = "json",
+    limit = limit,
+    offset = offset,
+    api_key = api_key))
+  
+  members_temp <- content(httr_rec, type='application/json')$member
+  members <- append(members, members_temp)
+  offset <- offset + limit
+}
