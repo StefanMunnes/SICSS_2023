@@ -24,12 +24,27 @@ library(httr)
 # A window will open.
 # Add "congress_key = [your key]" and save
 file.edit("~/.Renviron")
+
 # Restart R, then you can access the key via
 Sys.getenv("congress_key")
 
 
 # Task 1 ------------------------------------------------------------------
 # 1.	Names and other information on members of congress from 2020 to 2023
+
+httr_pers <- GET("https://api.congress.gov/v3/member",
+  query = list(format = "json",
+               limit = 250,
+               offset = 0,
+               api_key = Sys.getenv("congress_key")))
+
+# Extract the contents as JSON format/lists
+members <- content(httr_pers, type='application/json')$member
+
+# Set working directory
+setwd("C:/Users/nicol/Dropbox (Personal)/Work/03 Statistics/02 Methods literature and example code/Computational Social Science/SICSS Berlin/SICSS_2023/exercises/nicolekapelle") 
+save(members, file = "members.RData")
+
 
 # Task2 -------------------------------------------------------------------
 # 2.	Congressional records from 2020 to 2023 (only includes URLs to records)
