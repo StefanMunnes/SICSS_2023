@@ -6,7 +6,6 @@ library(rvest)
 library(stringr)
 library(dplyr)
 
-
 setwd("/Users/fwagner/Library/Mobile Documents/com~apple~CloudDocs/Uni/CEU/summer schools/SICSS Berlin/SICSS_2023/exercises/FW")
 urls <- str_split(readLines("practice_CNN_URLs.txt"), pattern = " ")
 
@@ -25,7 +24,7 @@ date <- html %>%
 df <- data.frame(matrix(ncol = 5, nrow = 0))
 colnames(df) <- c("Title", "Author", "Date", "Text", "Webpage")
 
-for (i in 1:length(urls)) {
+for (i in 1:length(urls)){
   url <- urls[[i]]  
   webpage <- read_html(url)
 
