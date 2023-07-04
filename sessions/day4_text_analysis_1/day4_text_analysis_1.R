@@ -11,7 +11,7 @@ textdata <- readRDS("data/CNN_complete.Rds")
 
 
 # create corpus, tokens and dfm (just first ten documents)
-corpus <- corpus(textdata[1:10, ], text_field = "body")
+corpus <- corpus(textdata[1:100, ], text_field = "body")
 head(summary(corpus))
 
 tokens <- tokens(corpus) # easy tokens without pre-processing
@@ -118,7 +118,7 @@ textstat_valence(dfm_pp, data_dictionary_AFINN)
 
 # ---- topic models ----
 
-tmod_lda <- textmodel_lda(dfm_pp, k = 2)
+tmod_lda <- textmodel_lda(dfm_pp, k = 3)
 
 terms(tmod_lda, 10)
 
