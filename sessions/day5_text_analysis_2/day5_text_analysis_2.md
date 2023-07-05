@@ -18,7 +18,7 @@ headingDivider: 1
 
 frequency based method:
 * count of words in corpus/per document
-* high dimensional document feature matrix
+* high dimensional sparse document feature matrix
 * could be weighted (e.g. TF-IDF)
 
 <!--
@@ -285,7 +285,7 @@ Nikhil Garg, Londa Schiebinger, Dan Jurafsky, and James Zou
 
 1. train your own word embeddings on the whole news article corpus
    - pre-process data, choose architecture and hyperparameter
-   - additional: train separate for news site
+   - additional: train separate by newspaper
 
 2. download pre-trained word embeddings (check parameter)
 3. compare the most similar words for some important keywords
