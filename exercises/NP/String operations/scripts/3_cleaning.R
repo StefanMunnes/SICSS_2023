@@ -15,7 +15,7 @@ cnn_data <- sample_n(cnn_data, 400) # or any other amount
 #   a. Separate authors into individual variables
 cnn_data[c('first_author', 'second_author', 'third_author')] <- str_split_fixed(cnn_data$authors, ";", 3)
 
-cnn_data <- cnn_data[,-14:-15]
+cnn_data <- cnn_data[,-15:-16]
 
 #   b. Change author names to be last name first, i.e., "Last, First" (relatively difficult)
 cnn_data$first_author <- sub('(\\w+) (\\w+)', '\\2 \\1', cnn_data$first_author)
@@ -84,13 +84,33 @@ words
 #   c. count how often "Black Lives Matter" or "BLM" are mentioned in individual
 #      articles and titles and think about the implications of the results
 
-Loss <- rowSums(cnn_data == "BLM") # Count the "Loss" per row
-cbind(Loss = rowSums(cnn_data=="BLM"), Wins = rowSums(cnn_data=="Black Lives Matter"))
-cbind(Loss, Wins = ncol(cnn_data) - Loss)
+str_count(cnn_data$title, "\\bblack lives matter\\b")
+str_count(cnn_data$body, "\\bblack lives matter\\b")
 
+str_count(cnn_data$title, "\\bblm\\b")
+str_count(cnn_data$body, "\\bblm\\b")
+
+#summing
+sum(str_count(cnn_data$body, regex("black lives matter")))
+sum(str_count(cnn_data$body, regex("blm")))
 
 #   d. count the number of articles by month
+#step 1 get months separately in a column
+cnn_data <- str_split_fixed(cnn_data$month, " ", 2) %>% 
+  data.frame() %>% 
+  rename(month2 = X1, day = X2) %>% 
+  cbind(cnn_data, .)
+
+#step2 group by month
+mytable <- table(cnn_data$month2)
+mytable
+
 #   e. count the numbers of articles that contain words related to 
 #      'peaceful protest' and then words related to 'violent protest'
+sum(str_count(cnn_data$body, regex("violent protest")))
+sum(str_count(cnn_data$body, regex("peaceful protest")))
+
+
+
 
 
