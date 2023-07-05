@@ -20,15 +20,15 @@ headingDivider: 1
 
 # Introduction
 
-- goal of text analysis: **deriving meaningful insights from textual data**
+* goal of text analysis: **deriving meaningful insights from textual data**
 
-- text as an artifact of social and political interaction
-- increasing availability and digitization of diverse texts
+* text as an artifact of social and political interaction
+* increasing availability and digitization of diverse texts
   (parliamentary debates, newspaper articles, archives, social media)
-- texts are used to communicate, so they always contain information
-- we can understand this information as data, even if this is not the main intention of the communication
-- transform text to data points to analyze and extract information/content
-- **BUT:** this transformation always leads to simplifications and truncations
+* texts are used to communicate, so they always contain information
+* we can understand this information as data, even if this is not the main intention of the communication
+* transform text to data points to analyze and extract information/content
+* **BUT:** this transformation always leads to simplifications and truncations
 
 
 # Text as data workflow
@@ -98,13 +98,13 @@ What is the smallest, meaningful unit of text documents to encode?
 
 manipulate and simplify raw text data to focus on important information:
 
-- remove punctuation? numbers? symbols? separators?
-- remove stopwords?
-- cases to lower?
-- stemming?
-- lemmatization?
-- n-grams?
-- min/max occurrence?
+* remove punctuation? numbers? symbols? separators?
+* remove stopwords?
+* cases to lower?
+* stemming?
+* lemmatization?
+* n-grams?
+* min/max occurrence?
 
 ---
 
@@ -160,14 +160,23 @@ if 'criminal' appears ...
 3. Should we add all possible n-grams?
 4. When is a TF-IDF not helpfull?
 
+<!---
+when the specific stopwords carry important semantic or contextual meaning in the analysis task. For example, in sentiment analysis, words like "not" or "but" are crucial in determining the sentiment polarity.
+
+Punctuations such as question marks, exclamation marks, or quotation marks can be informative in text analysis. They can provide insights into the sentiment, emphasis, or intent of the text, especially in tasks like sentiment analysis or emotion detection.
+
+Adding all possible n-grams is not advisable in most cases as it can lead to a significant increase in feature space and computational complexity. It's recommended to consider a subset of relevant n-grams based on the specific task and domain knowledge.
+
+TF-IDF may not be helpful in cases where the document collection is small or lacks diversity. In such situations, the term frequency (TF) component may dominate and not adequately capture the importance of terms. Additionally, TF-IDF may not be suitable for tasks where the order of words matters significantly, such as in language generation or sequential prediction tasks.
+--->
 
 # Bag of **Analysis**
 
-- (compare) term frequencies & keyness $\rightarrow$ exploration
-- readability & lexical diversity
-- sentiment analysis (e.g. dictionary approaches)
-- document classification (e.g. naiive bayes, support vector maschine)
-- topic modeling (e.g. LDA)
+* (compare) term frequencies & keyness $\rightarrow$ exploration
+* readability & lexical diversity
+* sentiment analysis (e.g. dictionary approaches)
+* document classification (e.g. naiive bayes, support vector machine)
+* topic modeling (e.g. LDA)
 
 
 # Bag of **R packages**
@@ -208,12 +217,12 @@ Three different data levels and objects:
 
 1. Corpus
 ```r
-corpus <- corpus(textdata, text_field = "text") 
+corpus <- corpus(textdata, text_field = "body") 
 ```
 
 2. Tokenization
 ```r
-tokens <- tokens(corpus, what = "word") # "sentence", "character", "fastestword", ...
+tokens <- tokens(corpus, what = "word") # "sentence", "character", ...
 ```
 
 3. Document-feature matrix
@@ -243,11 +252,13 @@ tokens_pp <- tokens(
 ## DFM manipulation
 
 - dfm_subset : subset based on document variables
-- dfm_select/remove/keep: subset based on document features
-- dfm_tolower/toupper/: change case of features
+- dfm_select/remove/keep : subset based on document features
+- dfm_tolower/toupper/stem : change case of features
 - dfm_group : grouping based on document variables
 - dfm_weight/tfidf : dfm weighting
 - dfm_lookup : use of dictionaries
+
+and also multiple functions for *tokens_* and *corpus_* 
 
 ---
 
@@ -264,7 +275,7 @@ topfeatures(tfidf, n = 5, groups = docnames(tfidf))
 ```
 
 ```r
-textstat_keyness(dfm, target = docvars(dfm, "article_length") < 4000) |>
+textstat_keyness(dfm, target = docvars(dfm, "news") == "CNN") |>
   textplot_keyness()
 ```
 
@@ -289,14 +300,18 @@ fcm_pp <- fcm(tokens_pp, context = "window", count = "frequency", window = 3)
 topfeatures(fcm_pp)
 ```
 
+---
 
-# Dictionary: Sentiment analysis
+![bg fit](img/sentiment_overview.png)
 
-- list of keywords for broader concept/categories
-- measurement: lookup keywords $\rightarrow$ count/proportion of appearance
-- use existing dictionary or create your own 
-- advantages: easy to use and to understand
-- disadvantages: Pre-made dictionaries might not fit your textual data, creating your own dictionary is a lot of work
+
+# Sentiment analysis: **Dictionary**
+
+* list of keywords for broader concept/categories
+* measurement: lookup keywords $\rightarrow$ count/proportion of appearance
+* use existing dictionary or create your own 
+* advantages: easy to use and to understand
+* disadvantages: Pre-made dictionaries might not fit your textual data, creating your own dictionary is a lot of work
 
 ---
 
@@ -307,32 +322,54 @@ topfeatures(fcm_pp)
 [Quanteda sentiment dictionaries](https://github.com/quanteda/quanteda.sentiment)
 
 ```r
+library(uanteda.sentiment)
+library(uanteda.textstats)
+
 dict_pol <- data_dictionary_HuLiu
 
 dfm_lookup(dfm_pp, dict_pol)
+
 textstat_polarity(dfm_pp, dict_pol)
 
 textstat_valence(dfm_pp, data_dictionary_AFINN)
 ```
 
 
-# Topic modeling: LDA
+# Topic modeling: **LDA**
 
-- what is a text about? how do the topics differ over time? between texts?
-- 'topic' is characterised by a set of high probability co-occurring words
-- topics ermerge (unsupervised) from the methodology and the corpus
-- number of topics set by researcher $\rightarrow$ degree of granularity
-- LDA (Latent Dirichlet allocation) most frequently used
-
-David Blei (2012): Probabilistic topic models, [tutorial here!](https://cbail.github.io/SICSS_Topic_Modeling.html)
+* what is a text about? how do the topics differ over time? between texts?
+* 'topic' is characterised by a set of high probability co-occurring words
+* topic modeling do not require any labeling of the documents (unsupervised) <br> $\rightarrow$ topics emerge from the methodology and the corpus
+* number of topics set by researcher $\rightarrow$ degree of granularity
+* two outputs: words per topics, topics per document
+* LDA (Latent Dirichlet allocation) most frequently used
+* LDA assumes documents a mixture over topics and topics a mixture over words
 
 <!--
+- topics: list of words that co-occurre often 
+- words with high propabilty of being part of one topic
+- words can be in multiple topics
+- each document mixture of different topics
+- topic models are mixture models where most documents have some resemblence to each topic
+
+- Topic models tend to produce the best results when applied to texts that are not too short (such as tweets), and those that have a consistent structure
+- To begin, the term “topic” is somewhat ambigious, and by now it is perhaps clear that topic models will not produce highly nuanced classification of texts. Second, topic models can easily be abused if they are wrongly understood as an objective representation of the meaning of a text.
 - 
+
+- algorithm -> iterative bayesian process: from randomly assigned propabilitys to best fit
+
+Each word that appears in the corpus is randomly assigned to one of the k topics. If you are a stickler for the details, this assignment is technically not random, since it involves a Dirichlet distribution that employs a probability simplex instead of real numbers (this simply means that the numbers assigned across the k topics add up to 1)
+
+Topic assignments for each word are updated in an iterative fashion by updating the prevalence of the word across the k topics, as well as the prevalence of the topics in the document. This stage of LDA employs the Term Frequency-Inverse Document Frequency metric discussed in a previous tutorial. Topic assignments are updated up to a user-specified threshold, or when iterations begin to have little impact on the probabilities assigned to each word in the corpus.
+
+
+[tutorial here!](https://cbail.github.io/SICSS_Topic_Modeling.html)
 -->
 
 ---
 
-![bg 90%](img/topic_modeling.png)
+![h:550](img/topic_modeling.png)
+[David Blei (2012): Probabilistic topic models](https://www.cs.columbia.edu/~blei/papers/Blei2012.pdf)
 
 ---
 
@@ -340,7 +377,7 @@ David Blei (2012): Probabilistic topic models, [tutorial here!](https://cbail.gi
 library(quanteda.textmodels)
 library(seededlda)
 
-tmod_lda <- textmodel_lda(review_dfm4, k = 10)
+tmod_lda <- textmodel_lda(dfm_pp, k = 3)
 
 terms(tmod_lda, 10)
 
@@ -348,22 +385,32 @@ topics(tmod_lda)
 ```
 
 
-# Topic modeling: example
+# Topic modeling: **Example**
 
-[Poster](https://martinmolder.com/wp-content/uploads/2018/03/poster_20170219.jpg) by Martin Mölder & Federico Vegetti : http://www.martinmolder.com/punk-songs.html
+[Poster](https://martinmolder.com/wp-content/uploads/2018/03/poster_20170219.jpg) by Martin Mölder & Federico Vegetti
+https://martinmolder.com/various/punk-songs/
+![bg right:40% 85%](img/poster_topics_punk.jpg)
+
+---
+
+![bg height:480](img/topic_modeling_classifier.png)
+
+<!--
+- difference in category
+-->
+
+# Classifier: **General**
+
+* algorithms that are used to classify text into predefined categories or classes
+* different methods: *Naive-Bayes*, *Logistic Regression*, *SVM*, *K-nearest neighbours*
+* learning patterns from input to make predictions about the category of unseen text
+* part of text data needs to be (manually) labeld (supervised)
+* split data in **training** and **test** set
+* validation: cross-validation
+* metrics to evaluate classification: *confusion matrix*, *accuracy*, *precision*, *recall*, *F1 scores*
 
 
-# Classifier: General
-
-- different methods: *Naive Bayes*, *regularized regression*, *SVM*, *K-nearest neighbours*, *ensemble methods*
-- part of text data needs to be (manually) labeld (supervised)
-- split data in **training** and **test** set
-- find patterns in the labeled data to transfer them to the test data
-- validation: cross-validation
-- metrics to evaluate classification: *confusion matrix*, *accuracy*, *precision*, *recall*, *F1 scores*
-
-
-# Classifier: Naïve Bayes
+# Classifier: **Naive-Bayes**
 
 - probabilistic learning approach
   - Bayesian statistics: style of its own
@@ -379,9 +426,16 @@ topics(tmod_lda)
    - Wörter, die nicht im training set vorkommen, werden von der Klassifikation ausgeschlossen 
    - konditionale Unabhängigkeit wird angenommen
 
+<!--
+- classic classifier works good with small corpus (compared to deep learning)
+- need less labeld data
+-->
+
 ---
 
 ```r
+library(quanteda.textmodels)
+
 tmod_nb <- textmodel_nb(dfmat_train, class)
 
 predict(tmod_nb, dfmat_test, force = TRUE)
@@ -390,10 +444,10 @@ predict(tmod_nb, dfmat_test, force = TRUE)
 
 # Exercise I
 
-1. load and inspect the whole corpus (documents, dimensions, tokens)
+1. load and inspect the whole corpus (documents, dimensions, tokens, types)
 2. use different pre-processing strategies and compare results
-3. extract keywords and check, if they differ over time
-4. show most important compound words
+3. show most important compound and co-occuring words
+4. extract keywords and check, if they differ over time and between groups
 
 
 # Exercise II
@@ -401,6 +455,4 @@ predict(tmod_nb, dfmat_test, force = TRUE)
 Decide as team which task you want to start with:
 1. dictionary: sentiment over time, grouped by newspaper
 2. topic modeling: find topics and show how they appear in the corpus
-
-
-https://github.com/microsoft/ML-For-Beginners/blob/main/6-NLP/2-Tasks/README.md#tasks-common-to-nlp
+3. Bonus: try the seeded LDA or stm topic modeling approach

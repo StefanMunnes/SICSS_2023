@@ -1,7 +1,7 @@
 *.txt
 *.Rproj
 .Rhistory
-*.Rds
+*.DS_Store
 
 Slides_textanalyses
 Example_Data

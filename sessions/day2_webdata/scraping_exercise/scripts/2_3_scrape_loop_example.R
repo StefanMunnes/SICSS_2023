@@ -44,7 +44,7 @@ articles <- lapply(urls, function(url) {
 })
 
 articles <- data.table::rbindlist(articles, fill = TRUE) 
-saveRDS(articles, file = "../data/processed/CNN.Rds")
+saveRDS(articles, file = "/Users/maialodato/Desktop/Summer School 2023 /D1/SICSS_2023/exercises/NP/CNN.Rds")
 
 
 # Loop alternative --------------------------------------------------------
