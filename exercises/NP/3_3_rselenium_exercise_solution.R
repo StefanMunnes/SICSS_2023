@@ -1,6 +1,8 @@
 # SICSS Berlin - Day 2 - July 4, 2023
 # Web scraping - Exercise Solution
 
+install.packages("RSelenium")
+
 library(tidyverse)
 library(RSelenium)
 library(rvest)
