@@ -1,8 +1,6 @@
 # SICSS Berlin - Day 2 - July 4, 2023
 # Web scraping - Exercise Solution
 
-install.packages("RSelenium")
-
 library(tidyverse)
 library(RSelenium)
 library(rvest)
@@ -31,6 +29,8 @@ selenium()
 # Identify the path, go to the path, and delete all LICENSE.chromedriver files in all of the chromedriver folders
 selenium_object <- selenium(retcommand = T,
                             check = F) 
+
+selenium_object
 
 binman::list_versions("chromedriver") 
 

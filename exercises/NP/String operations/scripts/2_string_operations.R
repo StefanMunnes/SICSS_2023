@@ -39,3 +39,4 @@ remotes::install_github("trinker/textclean")
 textclean::replace_misspelling(stuff)
 
 str_replace(text, 'improvemend', 'improvement')
+
