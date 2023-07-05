@@ -23,8 +23,7 @@ headingDivider: 1
 * goal of text analysis: **deriving meaningful insights from textual data**
 
 * text as an artifact of social and political interaction
-* increasing availability and digitization of diverse texts
-  (parliamentary debates, newspaper articles, archives, social media)
+* increasing availability and digitization of diverse texts <br>  (parliamentary debates, newspaper articles, archives, social media)
 * texts are used to communicate, so they always contain information
 * we can understand this information as data, even if this is not the main intention of the communication
 * transform text to data points to analyze and extract information/content
@@ -175,8 +174,8 @@ TF-IDF may not be helpful in cases where the document collection is small or lac
 * (compare) term frequencies & keyness $\rightarrow$ exploration
 * readability & lexical diversity
 * sentiment analysis (e.g. dictionary approaches)
-* document classification (e.g. naiive bayes, support vector machine)
-* topic modeling (e.g. LDA)
+* document classification (e.g. naive bayes, support vector machine)
+* topic modeling (e.g. LDA, STM)
 
 
 # Bag of **R packages**
@@ -190,6 +189,9 @@ Frameworks to manage and analyze text data
 
 ... and many more for special tasks (on [CRAN](https://cran.r-project.org/web/views/NaturalLanguageProcessing.html))
 
+<!--
+show NLP R ecosystem
+-->
 
 # Bag of **Quanteda**
 
@@ -317,13 +319,14 @@ topfeatures(fcm_pp)
 
 ![bg 75%](img/sentiment_polarity.png)
 
----
+
+# Sentiment analysis: **Quanteda**
 
 [Quanteda sentiment dictionaries](https://github.com/quanteda/quanteda.sentiment)
 
 ```r
-library(uanteda.sentiment)
-library(uanteda.textstats)
+library(qanteda.sentiment) 
+library(quanteda.textstats)
 
 dict_pol <- data_dictionary_HuLiu
 
@@ -371,7 +374,15 @@ Topic assignments for each word are updated in an iterative fashion by updating 
 ![h:550](img/topic_modeling.png)
 [David Blei (2012): Probabilistic topic models](https://www.cs.columbia.edu/~blei/papers/Blei2012.pdf)
 
----
+
+# Topic modeling: **Example**
+
+[Poster](https://martinmolder.com/wp-content/uploads/2018/03/poster_20170219.jpg) by Martin Mölder & Federico Vegetti
+https://martinmolder.com/various/punk-songs/
+![bg right:40% 85%](img/poster_topics_punk.jpg)
+
+
+# Topic modeling: **Quanteda**
 
 ```r
 library(quanteda.textmodels)
@@ -384,13 +395,6 @@ terms(tmod_lda, 10)
 topics(tmod_lda)
 ```
 
-
-# Topic modeling: **Example**
-
-[Poster](https://martinmolder.com/wp-content/uploads/2018/03/poster_20170219.jpg) by Martin Mölder & Federico Vegetti
-https://martinmolder.com/various/punk-songs/
-![bg right:40% 85%](img/poster_topics_punk.jpg)
-
 ---
 
 ![bg height:480](img/topic_modeling_classifier.png)
@@ -402,43 +406,57 @@ https://martinmolder.com/various/punk-songs/
 # Classifier: **General**
 
 * algorithms that are used to classify text into predefined categories or classes
-* different methods: *Naive-Bayes*, *Logistic Regression*, *SVM*, *K-nearest neighbours*
+* different methods: *Naive Bayes*, *SVM*, *Random Forest*, *K-nearest neighbors*
 * learning patterns from input to make predictions about the category of unseen text
 * part of text data needs to be (manually) labeld (supervised)
 * split data in **training** and **test** set
-* validation: cross-validation
-* metrics to evaluate classification: *confusion matrix*, *accuracy*, *precision*, *recall*, *F1 scores*
+* metrics to evaluate: *confusion matrix*, *accuracy*, *precision*, *recall*, *F1 score*
 
+![h:220](img/classifier_metrics.png)
 
-# Classifier: **Naive-Bayes**
+<!--
+Confusion Matrix: table that summarizes the performance of a classification model. It displays the counts of true positive (TP), true negative (TN), false positive (FP), and false negative (FN) predictions made by the model.
 
-- probabilistic learning approach
-  - Bayesian statistics: style of its own
-- Intuition: Wenn das Wort "meisterhaft" in einem Text vorkommt, wie wahrscheinlich ist diese Rezension positiv?
+Accuracy: measures the overall correctness of a classification model. It is calculated by dividing the number of correctly classified samples (TP and TN) by the total number of samples. Accuracy provides an overall view of the model's performance but may not be sufficient when the classes are imbalanced.
 
-**Vorteile** 
+Precision: quantifies the proportion of correctly predicted positive samples (TP) out of all samples predicted as positive (TP and FP). It focuses on the model's ability to avoid false positives and is particularly useful when the cost of false positives is high.
+TP / (TP + FP)
 
-  - Relativ Einfach, schnell, effektiv
-  - benötigt nur ein kleines training set (wenn Klassen nicht zu unbalanciert sind) 
+Recall: also known as sensitivity or true positive rate, measures the proportion of correctly predicted positive samples (TP) out of all actual positive samples (TP and FN). It captures the model's ability to identify positive samples and is useful when the cost of false negatives is high.
+TP / (TP + FN)
 
-**Nachteile**: 
+F1 Score: combines precision and recall into a single value. It is the harmonic mean of precision and recall, providing a balanced evaluation of the model's performance. The F1 score considers both false positives and false negatives and is particularly useful when classes are imbalanced.
+2 * (Precision * Recall) / (Precision + Recall)
+-->
 
-   - Wörter, die nicht im training set vorkommen, werden von der Klassifikation ausgeschlossen 
-   - konditionale Unabhängigkeit wird angenommen
+# Classifier: **Naive Bayes**
+
+- counting co-occurrence of features with each class is main learning idea
+- probabilistic algorithm based on Bayes' theorem
+- assumes that the features are conditionally independent $\rightarrow$ "naive"
+&nbsp;
+1. estimate the probabilities for each feature occurring given a (training) class
+2. calculates the probability of each class given the input features <br> $\rightarrow$ selects class with highest probability for (unseen data)
 
 <!--
 - classic classifier works good with small corpus (compared to deep learning)
+- classifiers often perform well and are computationally efficient, making them suitable for large-scale applications
 - need less labeld data
 -->
 
----
+# Classifier: **Quanteda**
 
 ```r
 library(quanteda.textmodels)
 
 tmod_nb <- textmodel_nb(dfmat_train, class)
 
-predict(tmod_nb, dfmat_test, force = TRUE)
+summary(tmod_nb)
+
+predicted_class <- predict(tmod_nb, dfmat_test, force = TRUE)
+
+tab_class <- table(class, predicted_class)
+caret::confusionMatrix(tab_class, mode = "everything")
 ```
 
 
@@ -447,12 +465,14 @@ predict(tmod_nb, dfmat_test, force = TRUE)
 1. load and inspect the whole corpus (documents, dimensions, tokens, types)
 2. use different pre-processing strategies and compare results
 3. show most important compound and co-occuring words
-4. extract keywords and check, if they differ over time and between groups
+4. extract important keywords
+5. Bonus: check, if keywords differ over time and between groups <br> (e.g. newspaper, authors gender, division, ...)
 
 
 # Exercise II
 
 Decide as team which task you want to start with:
 1. dictionary: sentiment over time, grouped by newspaper
+Are there differences using TF-IDF? Why? Try different Dictionaries.
 2. topic modeling: find topics and show how they appear in the corpus
 3. Bonus: try the seeded LDA or stm topic modeling approach

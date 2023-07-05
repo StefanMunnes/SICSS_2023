@@ -110,6 +110,7 @@ convert(fcm_pp, to = "data.frame") |>
 dict_pol <- data_dictionary_HuLiu
 
 dfm_lookup(dfm_pp, dict_pol)
+dfm_lookup(dfm_pp, dict_pol)
 textstat_polarity(dfm_pp, dict_pol)
 
 textstat_valence(dfm_pp, data_dictionary_AFINN)
