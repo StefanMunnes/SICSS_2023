@@ -1,7 +1,7 @@
 # Franziska Wagner
 ___
 ## What is your general topic / research field of interest (e.g., gender, extremism, social movements)?
-political communication, far right, social media / hybrid media environment
+political communication, far right, social media / hybrid media environment, NLP
 
 ___
 ## What is your specific research idea, if you have one?
