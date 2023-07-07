@@ -2,7 +2,7 @@
 ___
 ## What is your general topic / research field of interest (e.g., gender, extremism, social movements)?
 
-Far right & anti far right, between protest & electoral politics, media sources
+Far right & anti far right, between protest & electoral politics, media sources, comparative design
 
 ___
 ## What is your specific research idea, if you have one?
