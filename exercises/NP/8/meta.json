@@ -1,0 +1,49 @@
+{
+    "algorithm": {
+        "command": null,
+        "id": 1,
+        "name": "Global Vectors",
+        "tool": "GloVe",
+        "url": "https://nlp.stanford.edu/software/GloVe-1.2.zip",
+        "version": "1.2"
+    },
+    "contents": [
+        {
+            "filename": "model.txt",
+            "format": "text"
+        },
+        {
+            "filename": "meta.json",
+            "format": "json"
+        }
+    ],
+    "corpus": [
+        {
+            "NER": false,
+            "case preserved": true,
+            "description": "English Wikipedia Dump of February 2017",
+            "id": 1,
+            "language": "eng",
+            "lemmatized": false,
+            "public": true,
+            "stop words removal": "NLTK",
+            "tagger": null,
+            "tagset": null,
+            "tokens": 2252637050,
+            "tool": "Wikipedia Extractor",
+            "url": "https://dumps.wikimedia.org/"
+        }
+    ],
+    "creators": [
+        {
+            "email": "andreku@ifi.uio.no",
+            "name": "Andrey Kutuzov"
+        }
+    ],
+    "dimensions": 300,
+    "handle": "http://vectors.nlpl.eu/repository/20/8.zip",
+    "id": 8,
+    "iterations": 100,
+    "vocabulary size": 302815,
+    "window": 5
+}
