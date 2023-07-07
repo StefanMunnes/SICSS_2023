@@ -21,4 +21,4 @@ I don't mind either. Happy to develop it to a paper or forget it after next week
 
 ___
 ## Any additional notes?
-I have access to Facebook and somewhat Instagram... 
+I have access to Facebook and somewhat Instagram... More familiar with Python than R though
