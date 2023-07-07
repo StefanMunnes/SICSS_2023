@@ -325,7 +325,7 @@ topfeatures(fcm_pp)
 [Quanteda sentiment dictionaries](https://github.com/quanteda/quanteda.sentiment)
 
 ```r
-library(qanteda.sentiment) 
+library(quanteda.sentiment) 
 library(quanteda.textstats)
 
 dict_pol <- data_dictionary_HuLiu

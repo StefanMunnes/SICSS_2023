@@ -19,7 +19,7 @@ headingDivider: 1
 frequency based method:
 * count of words in corpus/per document
 * high dimensional sparse document feature matrix
-* could be weighted (e.g. TF-IDF)
+* can be weighted (e.g. TF-IDF)
 
 <!--
 - really easy to create and understand
@@ -38,7 +38,7 @@ frequency based method:
 - e.g. like & love, not the same words, but transport comparable meaning
 -->
 
-# Quiz: **How can we imagine meaning of words?**
+# Quiz: **How can we imagine the meaning of words?**
 
 ---
 
@@ -72,7 +72,7 @@ frequency based method:
   $\rightarrow$ "a word is characterized by the company it keeps" [Firth 1957](https://www.worldcat.org/de/title/studies-in-linguistic-analysis/oclc/907573426)
 * word embeddings represent words as real-valued vectors
 * similar word vectors for words in same context 
-* lower dimensional space, each corresponds to an aspect of the word’s meaning
+* lower dimensional space, each embedding corresponds to an aspect of the word’s meaning
 &nbsp;
 * (mostly) neuronal network
 * innovative base for current advancements of large language models
@@ -132,7 +132,7 @@ not all, but most important
 
 **1. create training data**
 - sliding context window (size)
-- pair of target and context words
+- pairs of target and context words
 
 <style scoped>
 table {
@@ -180,7 +180,7 @@ table {
 ---
 
 **3. extract word embeddings**
-- represent the weights in a matrix
+- word embeddings represent the weights in a matrix
 - each row, one-hot encoded vector of a specific word
 - columns are weights for each word of vocabulary 
 
@@ -217,13 +217,18 @@ table {
   - context window: 10 for skip-gram, 5 for CBOW
 - (evaluate with benchmarks)
 
+<!--
+Larger windows tend to capture more topic/domain information: what other words (of any type) are used in related discussions? 
+Smaller windows tend to capture more about word itself: what other words are functionally similar?
+-->
+
 
 # Word2vec: **Implementation in R**
 
 ```r
 library(word2vec)
 
-model <- word2vec(text_vector, type = "cbow", window = 5)
+model <- word2vec(text_vector, type = "cbow", window = 5, dim = 50)
 
 embeddings <- as.matrix(model)
 
@@ -238,11 +243,11 @@ model <- read.word2vec("mymodel.bin")
 
 # Word embeddings: **Limitations**
 
-* different context & polysemy
+* different contexts & polysemy
 * out-of-vocabulary words
 * limited context window
 * cultural bias in word relations
-* pro-processing, algorithm and hyperparameter can vary results
+* pre-processing, algorithm and hyperparameter can vary results
 * coherence of meaning
 * large amount of text data for self-training
 
@@ -263,7 +268,7 @@ model <- read.word2vec("mymodel.bin")
 * use in ML algorithms (e.g. classifier)
 * find biases (in language)
 * study cultural differences (also over time)
-* domain specific dictionaries
+* create domain specific dictionaries
 
 <!--
 - search for “soccer,” the search engine also gives you results for “football” as they’re two different names for the same game
@@ -276,8 +281,8 @@ model <- read.word2vec("mymodel.bin")
 
 ![bg right:50% 100%](img/we_gender_stereotypes.png)
 
-Word embeddings quantify 100 years of gender and ethnic stereotypes. 2018
-Nikhil Garg, Londa Schiebinger, Dan Jurafsky, and James Zou
+Word embeddings quantify 100 years of gender and ethnic stereotypes. 
+Nikhil Garg, Londa Schiebinger, Dan Jurafsky, and James Zou (2018)
 [Article](https://www.pnas.org/doi/10.1073/pnas.1720347115)
 
 
