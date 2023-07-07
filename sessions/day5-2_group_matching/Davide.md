@@ -2,7 +2,7 @@
 ___
 ## What is your general topic / research field of interest (e.g., gender, extremism, social movements)?
 
-Far right // anti far right, between protest & electoral politics, media sources
+Far right & anti far right, between protest & electoral politics, media sources
 
 ___
 ## What is your specific research idea, if you have one?
@@ -12,9 +12,7 @@ I haven't actually. I'd like to go not too far from political sociology. Also, i
 ___
 ## What would your prefered method of analysis be? And how do you rate your own skill level with that method?
 
-I'd like to improve both scraping and text-as-data skills, with no specific preferred methods 
-
-In general interesting RQs > methods
+I'd like to improve both scraping and text-as-data skills, with no specific preferred methods // In general interesting RQs > methods
 
 ___
 ## What is your overall skill level with R? 
