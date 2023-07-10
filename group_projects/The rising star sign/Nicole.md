@@ -1,7 +1,7 @@
 # Nicole
 ___
 ## What is your general topic / research field of interest (e.g., gender, extremism, social movements)?
-gender, sexuality, family, inequality (economic, subjectivem health)
+gender, sexuality, family, inequality (economic, subjective, health)
 
 ___
 ## What is your specific research idea, if you have one?
