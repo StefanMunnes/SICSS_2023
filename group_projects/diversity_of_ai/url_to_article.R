@@ -1,29 +1,5 @@
 library(rvest)
-# urls.list <- lapply(strsplit(readLines("/Users/yunchaewon/sicss-berlin/ai_hype/nyturls.txt"),' '), as.character)
 urls <- scan("/Users/yunchaewon/sicss-berlin/ai_hype/nyturls.txt", character(), quote = "")
-
-
-for(article_url in urls.list[1:1]){
-  html <- read_html(article_url)
-  
-  Title <- html %>% 
-    html_node(".e1h9rw200")  %>% 
-    html_text()
-  # Authors: 
-  Authors <- html %>% 
-    html_node(".last-byline") %>% 
-    html_text()
-  # Date: 
-  
-  Date <- html %>% 
-    html_node(".e16638kd0") %>% 
-    html_text()
-  # Text: 
-  Text <- html %>% 
-    html_node(".StoryBodyCompanionColumn") %>% 
-    html_text()
-  
-}
 
 
 # Run loop over these URLs
@@ -90,15 +66,17 @@ html %>%
 Title <- html %>% 
   html_node("#maincontent")  %>% 
   html_text()
+
 # Authors: 
 Authors <- html %>% 
   html_node(".byline__names") %>% 
   html_text()
-# Date: 
 
+# Date: 
 Date <- html %>% 
   html_node(".timestamp") %>% 
   html_text()
+
 # Text: 
 Text <- html %>% 
   html_node(".article__content") %>% 
