@@ -1,5 +1,8 @@
 # SICSS 2023 Berlin
 
+![](photos/IMG_3957.JPEG)
+
+
 The Summer Institute will be held at the [Berlin Social Science Center (WZB)](https://www.wzb.eu).
 
 Find further information about the key note speakers and their talks on our [speakers page](https://www.wzb.eu/en/research/dynamics-of-social-inequalities/work-family-and-social-inequality/sicss-2023).
