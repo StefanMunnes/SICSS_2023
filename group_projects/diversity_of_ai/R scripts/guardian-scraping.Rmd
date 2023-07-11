@@ -10,6 +10,7 @@ library(tidyverse)
 library(httr)
 library(jsonlite)
 library(rvest)
+library(tibble)
 ```
 
 ```{r eval=F}
@@ -79,7 +80,6 @@ while (TRUE) {
 cat("Total Articles:", length(articles), "\n")
 ```
 
-
 ```{r preprocess-urls}
 # Split the list into sublists based on element names
 sublists <- split(articles, names(articles))
@@ -90,18 +90,12 @@ articles_combined <- lapply(sublists, function(sublist) {
 })
 
 # Write the URL vector to a text file
-writeLines(articles_combined[["webUrl"]], "list-of-urls.md")
-
-#urls <- data.frame(articles)
+writeLines(articles_combined[["webUrl"]], "guardian-list-of-urls.md")
 ```
 
 ```{r rvest-urls}
-library(rvest)
-library(tibble)
-
 # Read the URLs from the file
 urls <- readLines("./list-of-urls.md")
-#urls <- urls[1:3]
 
 # Function to extract article information from a URL
 extractArticle <- function(url) {
@@ -140,21 +134,10 @@ articles <- lapply(urls, extractArticle)
 
 # Combine the article dataframes into a single dataframe
 article_df <- do.call(rbind, articles)
+
+#saveRDS(article_df, file = "./guardian-scraping-results.Rds")
 ```
 
-```{r preprocessing}
-article_df <- article_df %>%
-  mutate(timestamp = str_squish(timestamp))
-
-article_df <- article_df %>%
-  mutate(timestamp=str_trim(str_sub(timestamp, start = 5))) %>% 
-  mutate(timestamp=str_trim(str_sub(timestamp, end = 11)))
-
-article_df <- article_df %>%
-  mutate(timestamp = as.Date(timestamp, format = "%d %b %Y"))
-
-#saveRDS(article_df, file = "./guardian-results.Rds")
-```
 
 
 
