@@ -1,0 +1,160 @@
+---
+title: "guardian-scraping"
+author: "Camille Landesvatter"
+date: "2023-07-10"
+output: html_document
+---
+
+```{r setup}
+library(tidyverse)
+library(httr)
+library(jsonlite)
+library(rvest)
+```
+
+```{r eval=F}
+# There is a R wrapper, but it is not very useful
+# install.packages("remotes")
+# remotes::install_github("news-r/guardian", force=TRUE)
+# library(guardian)
+```
+
+# API KEY
+
+```{r eval=F}
+# store API key in R environment
+file.edit("~/.Renviron")
+#Sys.getenv("GUARDIAN_API_KEY")
+```
+
+```{r api-call}
+# Set initial parameters
+api_key <- Sys.getenv("GUARDIAN_API_KEY")
+page_number <- 1  # Start with the first page
+
+articles <- list()  # List to store all articles
+
+# Retrieve articles using pagination
+while (TRUE) {
+  # Prepare and make the call using the endpoint URL and other parameters
+  response <- GET(
+    url = "https://content.guardianapis.com/search",
+    query = list(
+      "from-date" = "2022-07-01",
+      "to-date" = "2023-07-10",
+      "q" = "Artificial Intelligence",
+      "page" = page_number,
+      "api-key" = api_key
+    )
+  )
+
+  # Check the response status
+  if (status_code(response) == 200) {
+    # Extract the JSON content
+    json_content <- content(response, as = "text")
+    
+    # Parse the JSON data
+    data <- fromJSON(json_content)
+    
+    # Extract article details from the current page
+    articles_page <- data$response$results
+    
+    # Append articles to the list
+    articles <- c(articles, articles_page)
+    
+    # Increment page number
+    page_number <- page_number + 1
+    
+    # Check if there are more pages to fetch
+    if (page_number > data$response$pages) {
+      break  # Exit the loop if all pages have been fetched
+    }
+  } else {
+    cat("Error:", status_code(response), "\n")
+    break  # Exit the loop in case of an error
+  }
+}
+
+# Print the total number of articles collected
+cat("Total Articles:", length(articles), "\n")
+```
+
+
+```{r preprocess-urls}
+# Split the list into sublists based on element names
+sublists <- split(articles, names(articles))
+
+# Combine elements with the same name
+articles_combined <- lapply(sublists, function(sublist) {
+  do.call(c, sublist)
+})
+
+# Write the URL vector to a text file
+writeLines(articles_combined[["webUrl"]], "list-of-urls.md")
+
+#urls <- data.frame(articles)
+```
+
+```{r rvest-urls}
+library(rvest)
+library(tibble)
+
+# Read the URLs from the file
+urls <- readLines("./list-of-urls.md")
+#urls <- urls[1:3]
+
+# Function to extract article information from a URL
+extractArticle <- function(url) {
+  Sys.sleep(runif(1) + 1)
+  
+  message(url)
+  
+  website <- read_html(url)
+  
+  article <- tibble(
+    title = website %>%
+      html_node("h1") %>%
+      html_text(),
+    
+    
+    timestamp = website %>%
+      html_node(".content__dateline time") %>%
+      html_text() %>%
+      ifelse(is.na(.), website %>% html_node(".dcr-u0h1qy") %>% html_text(), .),
+    
+    
+    body = website %>%
+      html_nodes("p") %>%
+      html_text() %>%
+      paste(collapse = ""),
+
+    
+    url = url
+  )
+  
+  return(article)
+}
+
+# Run loop over the URLs and extract article information
+articles <- lapply(urls, extractArticle)
+
+# Combine the article dataframes into a single dataframe
+article_df <- do.call(rbind, articles)
+```
+
+```{r preprocessing}
+article_df <- article_df %>%
+  mutate(timestamp = str_squish(timestamp))
+
+article_df <- article_df %>%
+  mutate(timestamp=str_trim(str_sub(timestamp, start = 5))) %>% 
+  mutate(timestamp=str_trim(str_sub(timestamp, end = 11)))
+
+article_df <- article_df %>%
+  mutate(timestamp = as.Date(timestamp, format = "%d %b %Y"))
+
+#saveRDS(article_df, file = "./guardian-results.Rds")
+```
+
+
+
