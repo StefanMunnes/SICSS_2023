@@ -1,0 +1,46 @@
+---
+title: "guardian-preprocessing"
+author: "Camille Landesvatter"
+date: "2023-07-11"
+output: html_document
+---
+
+# Pre-processing, following all applicable steps from Franziska
+
+```{r import-data}
+article_df <- readRDS("./guardian-scraping-results.Rds")
+```
+
+```{r preprocessing-timestamps}
+article_df <- article_df %>%
+  mutate(timestamp = str_squish(timestamp))
+
+article_df <- article_df %>%
+  mutate(timestamp=str_trim(str_sub(timestamp, start = 5))) %>% 
+  mutate(timestamp=str_trim(str_sub(timestamp, end = 11)))
+
+article_df <- article_df %>%
+  mutate(timestamp = as.Date(timestamp, format = "%d %b %Y"))
+```
+
+```{r preprocessing-body}
+# only keep rows that actually make mention of ai etc.
+
+article_df <- article_df[(grepl("#artificialintelligence|Artificial Intelligence|artificial intelligence", article_df$body)), ]
+
+# remove links and @
+article_df <- article_df %>% 
+  mutate(body = str_replace_all(body, "@|#", "")) |> #removing only sign or words as well?
+  mutate(body = str_replace_all(body, "http\\S+", ""))
+
+# additionally: squish whitespaces
+article_df <- article_df %>%
+  mutate(body = str_squish(body))
+
+#save clean file
+write.csv(article_df, file = "ai_guardian_clean.csv", row.names = FALSE)
+```
+
+
+
+
