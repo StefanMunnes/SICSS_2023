@@ -2,3 +2,10 @@ Google docs (updated url): https://docs.google.com/document/d/1XGP_phbHtl-jrkKZa
 
 
 Uploading txt files as lists: api_key <- str_split(readLines("SICSS Berlin/us_congress_api.txt"), pattern = " ")
+
+**DAY 2**
+Text preprocessing:
+- date format
+- descriptive statistics (frequencies, ngrams)
+- RSelenium installation
+- finish NYT collection
