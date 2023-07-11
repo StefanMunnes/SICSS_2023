@@ -44,4 +44,4 @@ fox <- fox %>%
   
 
 #save clean file
-write.csv(fox, file = "ai_fox_clean", row.names = FALSE)
+write.csv(fox, file = "ai_fox_clean.csv", row.names = FALSE)
