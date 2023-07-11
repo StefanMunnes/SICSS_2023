@@ -9,3 +9,7 @@ Text preprocessing:
 - descriptive statistics (frequencies, ngrams)
 - RSelenium installation
 - finish NYT collection
+
+deal with dates:
+fox$date <- str_extract(fox$timestamp, '\\s+(.*\\d{4})', group=1)
+fox$date <- as.Date(fox$date, format = "%B %d, %Y")
