@@ -5,7 +5,7 @@ date: "2023-07-11"
 output: html_document
 ---
 
-# Pre-processing, following all applicable steps from Franziska
+# Pre-processing, following all applicable steps from Franziska's first Code
 
 ```{r import-data}
 article_df <- readRDS("./guardian-scraping-results.Rds")
@@ -21,16 +21,16 @@ article_df <- article_df %>%
 
 article_df <- article_df %>%
   mutate(timestamp = as.Date(timestamp, format = "%d %b %Y"))
+
+sum(is.na(article_df$timestamp))
 ```
 
 ```{r preprocessing-body}
-# only keep rows that actually make mention of ai etc.
+# only keep rows that actually make mention of relevant keywords (e.g., AI) etc.
+article_df <- article_df[(grepl("#artificialintelligence|Artificial Intelligence|artificial intelligence|AI", article_df$body)), ]
 
-article_df <- article_df[(grepl("#artificialintelligence|Artificial Intelligence|artificial intelligence", article_df$body)), ]
-
-# remove links and @
+# remove links
 article_df <- article_df %>% 
-  mutate(body = str_replace_all(body, "@|#", "")) |> #removing only sign or words as well?
   mutate(body = str_replace_all(body, "http\\S+", ""))
 
 # additionally: squish whitespaces

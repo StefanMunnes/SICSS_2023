@@ -95,11 +95,11 @@ writeLines(articles_combined[["webUrl"]], "guardian-list-of-urls.md")
 
 ```{r rvest-urls}
 # Read the URLs from the file
-urls <- readLines("./list-of-urls.md")
+urls <- readLines("./guardian-list-of-urls.md")
 
 # Function to extract article information from a URL
 extractArticle <- function(url) {
-  Sys.sleep(runif(1) + 1)
+  Sys.sleep(1) #up to 1 call per second
   
   message(url)
   

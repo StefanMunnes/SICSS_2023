@@ -1,5 +1,7 @@
 # Analysis for The Guardian Articles ----
 
+# Libraries ----
+
 library(tidyverse)
 library(ggplot2)
 
@@ -8,9 +10,38 @@ pacman::p_load(
   "quanteda.textplots", "quanteda.sentiment", "seededlda"
 )
 
+# Data Import ----
+
 guardian <- read.csv("./ai_guardian_clean.csv")
 
-# plot across time ----
+
+# Word Count ----
+
+# including stopwords
+library(stringr)
+guardian <- guardian %>% 
+  mutate(word_count = str_count(guardian$body, "\\w+"))
+
+sum(guardian$word_count)
+mean(guardian$word_count)
+
+# excluding stopwords
+body_wo_stopwords <- tidytext::unnest_tokens(guardian, words, body)
+
+stopwords <- stopwords::stopwords("en")
+
+body_wo_stopwords<-body_wo_stopwords[!(body_wo_stopwords$words %in% stopwords),]
+
+length(body_wo_stopwords$words) #198754
+
+avg <- body_wo_stopwords %>% group_by(url) %>% summarise(count=n())
+mean(avg$count) #474
+
+
+
+
+
+# Plot across time ----
 guardian$date <- as.Date(guardian$timestamp)
 
 guardian_plot <- ggplot(guardian, aes(x = date)) +
@@ -29,10 +60,14 @@ guardian_plot <- ggplot(guardian, aes(x = date)) +
 print(guardian_plot)
 ggsave("guardian_frequency_plot.png", width = 5, height = 3, path = "../figures", dpi=700, bg = 'white')
 
+
+
+
+
+
 # Sentiment Analysis for The Guardian ----
 
 corpus <- corpus(guardian, text_field = "body")
-#head(summary(corpus))
 
 stopwords("en")
 
@@ -67,8 +102,6 @@ tfifdf_guardian <- dfm_tfidf(dfm_guardian)
 # N-grams
 textstat_collocations(tokens_guardian) |>
   head(15)
-
-# ---- sentiment analysis ----
 
 #remotes::install_github("quanteda/quanteda.sentiment")
 library(quanteda.sentiment)
