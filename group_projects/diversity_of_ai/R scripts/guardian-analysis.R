@@ -22,7 +22,7 @@ guardian_plot <- ggplot(guardian, aes(x = date)) +
            label = "Introduction Chat GPT", angle = 90, vjust = -0.5, hjust = 0)
 
 print(guardian_plot)
-
+ggsave("guardian_frequency_plot", path = "../figures", dpi=700)
 
 # Sentiment Analysis for The Guardian ----
 
