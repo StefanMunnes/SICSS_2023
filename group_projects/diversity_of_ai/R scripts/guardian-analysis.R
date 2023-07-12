@@ -17,12 +17,17 @@ guardian_plot <- ggplot(guardian, aes(x = date)) +
   geom_histogram(stat = "count", bins = "auto", fill = "steelblue") +
   labs(x = "Date", y = "Number of Observations") +
   theme_minimal() +
+  theme(text = element_text(size=10),
+        axis.text.x = element_text(size=8),
+        axis.text.y = element_text(size=8),
+        axis.title.x = element_text(size=8),
+        axis.title.y = element_text(size=8)) +
   geom_vline(xintercept = as.numeric(as.Date("2022-11-30")), linetype = "dashed", color = "red") +
   annotate("text", x = as.Date("2022-11-30"), y = 5, 
-           label = "Introduction Chat GPT", angle = 90, vjust = -0.5, hjust = 0)
+           label = "Introduction Chat GPT", angle = 90, vjust = -0.5, hjust = 0, size=2)
 
 print(guardian_plot)
-ggsave("guardian_frequency_plot", path = "../figures", dpi=700)
+ggsave("guardian_frequency_plot.png", width = 5, height = 3, path = "../figures", dpi=700, bg = 'white')
 
 # Sentiment Analysis for The Guardian ----
 
@@ -82,11 +87,19 @@ guardian_sent <- ggplot(guardian) +
   geom_smooth(aes(x = date, y = sentiment), method = "loess", se = FALSE, color = "red") +
   labs(x = "Date", y = "Sentiment") +
   theme_minimal() +
+  theme(text = element_text(size=10),
+        axis.text.x = element_text(size=8),
+        axis.text.y = element_text(size=8),
+        axis.title.x = element_text(size=8),
+        axis.title.y = element_text(size=8)) +
   geom_vline(xintercept = as.numeric(as.Date("2022-11-30")), linetype = "dashed", color = "red") +
   annotate("text", x = as.Date("2022-11-30"), y = 1, 
-           label = "Introduction Chat GPT", vjust = -0.5, hjust = 0, angle = 90)
+           label = "Introduction Chat GPT", vjust = -0.5, hjust = 0, angle = 90, size=2)
 
 print(guardian_sent)
+
+ggsave("guardian_sentiment_plot.png", width = 5, height = 3, path = "../figures", dpi=700, bg = 'white')
+
 
 
 
