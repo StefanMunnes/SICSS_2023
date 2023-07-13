@@ -13,3 +13,12 @@ members_df <- congress_members %>%
   unnest_wider(terms)
 
 
+library(pacman)
+?p_load_gh
+
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load_gh(c(
+  "trinker/termco", 
+  "trinker/coreNLPsetup",        
+  "trinker/tagger"
+))
